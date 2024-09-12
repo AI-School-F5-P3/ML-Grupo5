@@ -147,6 +147,7 @@ def screen_predict():
             neural_pred = 1 if neural_prob > 0.5 else 0
 
             # Guardar predicciones en la base de datos
+            '''
             save_prediction(
                 inputs, 
                 logistic_pred, logistic_prob, 
@@ -154,6 +155,7 @@ def screen_predict():
                 stack_pred, stack_prob, 
                 neural_pred, neural_prob
             )
+            '''
 
         
         # Mostrar resultados
