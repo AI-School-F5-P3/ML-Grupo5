@@ -138,11 +138,11 @@ col5, col6 = st.columns(2)
 with col1:
     gender = st.selectbox('Género', ['Masculino', 'Femenino'])
     customer_type = st.selectbox('Tipo de Cliente', ['Leal', 'Desleal'])
-    age = st.number_input('Edad', min_value=0, max_value=120)
+    age = st.number_input('Edad', min_value=1, max_value=120, value = 30)
 with col2:
     type_of_travel = st.selectbox('Tipo de Viaje', ['Personal', 'Negocios'])
     class_type = st.selectbox('Clase', ['Económica', 'Económica Plus', 'Negocios'])
-    flight_distance = st.number_input('Distancia de Vuelo', min_value=0)
+    flight_distance = st.number_input('Distancia de Vuelo', min_value=30, value = 30)
 
 def satisfaction_radio(label, var_name):
     emojis = ['😠', '😞', '😐', '😊', '😁']  # Emojis de 0 a 5
@@ -195,7 +195,7 @@ if st.button('Ver Resultados'):
         'Customer Type': 0 if customer_type == 'Leal' else 1,
         'Age': age,
         'Type of Travel': 0 if type_of_travel == 'Personal' else 1,
-        'Class': 0 if class_type == 'Económica' else (1 if class_type == 'Económica Plus' else 2),
+        'Class': 0 if class_type == 'Económica Plus' else (1 if class_type == 'Negocios' else 2),
         'Flight Distance': flight_distance,
         'Inflight wifi service': inflight_wifi_service,
         'Departure/Arrival time convenient': departure_arrival_time_convenient,
