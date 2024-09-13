@@ -192,7 +192,7 @@ def screen_predict():
             fig_stack = create_gauge_chart(neural_prob * 100, "Probabilidad de Satisfacción")
             st.plotly_chart(fig_stack, use_container_width=True)
             emoji = "😃" if neural_pred == 1 else "😞"
-            st.metric("Predicción", f"{'Satisfecho' if stack_pred == 1 else 'Insatisfecho'} {emoji}")
+            st.metric("Predicción", f"{'Satisfecho' if neural_pred == 1 else 'Insatisfecho'} {emoji}")
 
         st.balloons()
 
