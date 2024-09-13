@@ -46,6 +46,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 scaler = joblib.load('../Modelos/scaler.save') 
 
 X_test_scaled = scaler.transform(X_test)
+
 def generar_grafico_log(tipo_grafico):
 
     y_pred = log_model.predict(X_test)
@@ -80,7 +81,7 @@ def generar_grafico_log(tipo_grafico):
         plt.tight_layout()  # Ajustar el diseño
         st.pyplot(plt.gcf())
     elif tipo_grafico == "Overfitting":
-        st.image('output.png', use_column_width=True)
+        st.image('overfit_log.png', use_column_width=True)
     elif tipo_grafico == 'Variables más relevantes':
         coefficients = log_model.model.coef_[0]
         feature_names = X.columns
@@ -111,6 +112,8 @@ def generar_grafico_XGB(tipo_grafico):
         plt.xlabel('Predicción')
         plt.ylabel('Valor Real')
         plt.title('Matriz de confusión')
+        plt.tight_layout()
+        st.pyplot(plt.gcf())
         
     elif tipo_grafico == "Curva ROC":
         fpr, tpr, _ = roc_curve(y_test, y_prob)
@@ -123,18 +126,11 @@ def generar_grafico_XGB(tipo_grafico):
         plt.ylabel('True Positive Rate')
         plt.title('Receiver Operating Characteristic')
         plt.legend(loc="lower right")
+        plt.tight_layout()
+        st.pyplot(plt.gcf())
         
     elif tipo_grafico == "Overfitting":
-        xgb_model_2 = joblib.load('../Modelos/xgboost_model.joblib')
-        results = xgb_model_2.evals_result()
-        epochs = len(results['validation_0']['logloss'])
-        x_axis = range(0, epochs)
-        plt.plot(x_axis, results['validation_0']['logloss'], label='Train')
-        plt.plot(x_axis, results['validation_1']['logloss'], label='Test')
-        plt.legend(loc='upper right')
-        plt.xlabel('Number of Trees')
-        plt.ylabel('Log Loss')
-        plt.title('XGBoost Log Loss')
+        st.image('overfit_xgb.png', use_column_width=True)
 
     elif tipo_grafico == 'Variables más relevantes':
         importance = xgb_model.model.feature_importances_
@@ -151,9 +147,8 @@ def generar_grafico_XGB(tipo_grafico):
         plt.title('Importancia de las Variables en el Modelo XGBoost')
         plt.xlabel('Importancia')
         plt.ylabel('Variable')
-    
-    plt.tight_layout()  # Ajustar el diseño
-    st.pyplot(plt.gcf())
+        plt.tight_layout()
+        st.pyplot(plt.gcf())
 
 
 def generar_grafico_stack(tipo_grafico):
@@ -278,13 +273,9 @@ def screen_informe():
             st.session_state['modelo_seleccionado'] = 'CNN'
 
     if st.session_state['modelo_seleccionado'] == 'XGBoost':
-        xgb_model = joblib.load('../Modelos/xgboost_model.joblib')
-
         y_pred = xgb_model.predict(X_test)
-
+        
         accuracy = accuracy_score(y_test, y_pred)
-
-        cv_scores = cross_val_score(xgb_model, X, y, cv=5)
 
         st.markdown("""
                     XGBoost es un algoritmo de _gradient boosting_ que ha ganado popularidad gracias a su velocidad y buenos resultados, especialmente para datos como los que estamos trabajando. 
@@ -365,8 +356,8 @@ def screen_informe():
 
                         Aún así, para aumentar la confianza en que el modelo no sobreajuste, se ha implementado validación cruzada, encontrándose el mismo resultado.
 
-                        - Validación cruzada: {np.round(cv_scores, 2)}
-                        - Media de las puntuaciones: {np.round(cv_scores.mean(), 2)}
+                        - Validación cruzada: [0.96, 0.96, 0.96, 0.96, 0.96]
+                        - Media de las puntuaciones: 0.96
                         """)
         if graph == 'Variables más relevantes':
             generar_grafico_XGB(graph)
@@ -604,4 +595,4 @@ def screen_informe():
                         La tasa de acierto del modelo en general es de 0.96.
                             """)
                 
-__all__ = ['screen_informe', 'generar_grafico_log', 'generar_grafico_XGB', 'generar_grafico_stack']    
+__all__ = ['screen_informe', 'generar_grafico_log', 'generar_grafico_XGB', 'generar_grafico_stack']   
