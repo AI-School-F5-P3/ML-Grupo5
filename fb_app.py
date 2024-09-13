@@ -154,7 +154,7 @@ def satisfaction_radio(label, var_name):
         key=var_name,
         horizontal=True
     )
-    return emojis.index(selected_value)
+    return emojis.index(selected_value)+1
 
 # Columnas de satisfacción
 inflight_wifi_service = satisfaction_radio('Servicio de WiFi a bordo', 'inflight_wifi_service')
