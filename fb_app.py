@@ -7,6 +7,9 @@ import csv
 from datetime import datetime
 import os
 from src.database.connection import create_connection, close_connection
+from src.Modelos.logistic_model import LogisticModel
+from src.Modelos.xgboost_model import XGBoostModel
+from src.Modelos.stack_model import StackModel
 import numpy as np
 
 # Configuración para suprimir advertencias de TensorFlow
@@ -30,9 +33,9 @@ def load_model(file_path):
 
 # Cargar los modelos
 model_dir = 'src/Modelos'  # Ajusta esta ruta según la estructura de tu proyecto
-xgboost_model = load_model(os.path.join(model_dir, 'xgboost_model.joblib'))
-logistic_model = load_model(os.path.join(model_dir, 'logistic_model.joblib'))
-stack_model = load_model(os.path.join(model_dir, 'stack_model.joblib'))
+xgboost_model = XGBoostModel.load_model(os.path.join(model_dir,'xgboost_model.joblib'))
+stack_model = StackModel.load_model(os.path.join(model_dir,'stack_model.joblib'))
+logistic_model = LogisticModel.load_model(os.path.join(model_dir,'logistic_model.joblib'))
 neuronal_model = load_model(os.path.join(model_dir, 'neuronal.keras'))
 scaler = joblib.load(os.path.join(model_dir, 'scaler.save'))
 
