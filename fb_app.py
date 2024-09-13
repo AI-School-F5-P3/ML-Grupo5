@@ -145,7 +145,7 @@ with col2:
     flight_distance = st.number_input('Distancia de Vuelo', min_value=0)
 
 def satisfaction_radio(label, var_name):
-    emojis = ['😡', '😠', '😞', '😐', '😊', '😁']  # Emojis de 0 a 5
+    emojis = ['😠', '😞', '😐', '😊', '😁']  # Emojis de 0 a 5
     st.write(label)
     selected_value = st.radio(
         label,
