@@ -34,20 +34,25 @@ xgboost_model = load_model(os.path.join(model_dir, 'xgboost_model.joblib'))
 logistic_model = load_model(os.path.join(model_dir, 'logistic_model.joblib'))
 stack_model = load_model(os.path.join(model_dir, 'stack_model.joblib'))
 neuronal_model = load_model(os.path.join(model_dir, 'neuronal.keras'))
+scaler = joblib.load(os.path.join(model_dir, 'scaler.save'))
 
 # Función para hacer predicciones
-def predict(data, model):
+def predict(data, model, scaler = scaler):
     if model is not None:
         try:
             if isinstance(model, tf.keras.Model):
-                pred = model.predict(data)
-                return pred[0][0] > 0.5
+                data_scaled = scaler.transform(data)
+                neural_prob = model.predict(data_scaled)
+                neural_prob = float(neural_prob[0, 0])
+                neural_pred = 1 if neural_prob > 0.5 else 0
+                return neural_pred
             else:
-                pred = model.predict(data)[0]
-            return pred
+                proba = model.predict_proba(data)[0]
+                pred = 1 if proba[1] > 0.5 else 0
+                return pred
         except Exception as e:
             st.error(f"Error al hacer la predicción: {str(e)}")
-    return None
+        return None
 
 # Función para guardar los resultados en CSV
 def save_to_csv(data, predictions, feedback):
@@ -138,7 +143,7 @@ col5, col6 = st.columns(2)
 with col1:
     gender = st.selectbox('Género', ['Masculino', 'Femenino'])
     customer_type = st.selectbox('Tipo de Cliente', ['Leal', 'Desleal'])
-    age = st.number_input('Edad', min_value=1, max_value=120, value = 30)
+    age = st.number_input('Edad', min_value=1, max_value=120, value=30)
 with col2:
     type_of_travel = st.selectbox('Tipo de Viaje', ['Personal', 'Negocios'])
     class_type = st.selectbox('Clase', ['Económica', 'Económica Plus', 'Negocios'])
