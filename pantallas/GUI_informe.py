@@ -269,7 +269,7 @@ def screen_informe():
             st.session_state['modelo_seleccionado'] = 'Stacked'
 
     with col2:
-        if st.button("Modelo CNN"):
+        if st.button("Modelo Neural Network"):
             st.session_state['modelo_seleccionado'] = 'CNN'
 
     if st.session_state['modelo_seleccionado'] == 'XGBoost':
