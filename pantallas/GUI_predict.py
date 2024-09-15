@@ -184,7 +184,7 @@ def screen_predict():
             st.metric("Predicción", f"{'Satisfecho' if stack_pred == 1 else 'Insatisfecho'} {emoji}")
         
         with col2:
-            st.markdown("<h3 style='text-align: center;'>CNN 🧠</h3>", unsafe_allow_html=True)
+            st.markdown("<h3 style='text-align: center;'>Neural Network 🧠</h3>", unsafe_allow_html=True)
             inputs_scaled = scaler.transform(inputs)
             neural_prob = neural_model.predict(inputs_scaled)
             neural_prob = float(neural_prob[0, 0])
