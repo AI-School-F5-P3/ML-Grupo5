@@ -117,3 +117,4 @@ Werkzeug==3.0.4
 wheel==0.44.0
 wrapt==1.16.0
 xgboost==2.1.1
+ydata_profiling==4.10.0
